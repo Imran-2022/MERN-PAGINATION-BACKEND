@@ -1,2 +1,2 @@
 npm init -y 
-npm i cors dotenv mongodb
+npm i cors dotenv mongodb express

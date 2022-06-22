@@ -4,16 +4,19 @@ const port = process.env.PORT || 8080
 const cors = require('cors');
 const ObjectId = require('mongodb').ObjectId;
 const { MongoClient, ServerApiVersion } = require('mongodb');
-
+require('dotenv').config()
 app.use(express.json())
 app.use(cors())
+const db_user=process.env.db_user;
+const db_pass = process.env.db_pass;
 
-const uri = "mongodb+srv://pagination:<password>@cluster0.bp8ax.mongodb.net/?retryWrites=true&w=majority";
+const uri = `mongodb+srv://${db_user}:${db_pass}@cluster0.bp8ax.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 async function run() {
     try {
       await client.connect();
+      console.log("mongodb connected")
       const dataCollection= client.db("pagination").collection("pagination-data");
 
 
