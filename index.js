@@ -21,10 +21,28 @@ async function run() {
 
 
     // -----------------> load all data 
-    app.get('/', async (req, res) => {
+    app.get('/products', async (req, res) => {
+      const page = parseInt(req.query.page);
+      const size = parseInt(req.query.size);
+      // console.log(page,size)
+
         const query = {}
-        const result = await dataCollection.find(query).toArray();
-        res.status(200).json(result)
+        let products;
+        if(page || size) {
+          products= await dataCollection.find(query).skip(page*10).limit(size).toArray();
+        }else{
+          products= await dataCollection.find(query).toArray();
+        }
+        res.status(200).json(products)
+       
+    })
+
+    // count total data available 
+    app.get ('/productCount',async (req, res) => {
+      const query = {};
+      const count = await dataCollection.countDocuments();
+      // res.json(count);// send as json or 
+      res.send({count})
     })
 
 
